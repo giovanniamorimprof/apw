@@ -1,34 +1,57 @@
-const STORAGE_KEY = "usuarios";
+const API_URL = "https://67c6f465c19eb8753e780d30.mockapi.io/api/v1/users";
 
 export const UsuarioService = {
-    getUsuarios() {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    async getUsuarios() {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error("Erro ao buscar usuários");
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
     },
 
-    salvarUsuarios(usuarios) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(usuarios));
+    async adicionarUsuario(usuario) {
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(usuario),
+            });
+            if (!response.ok) throw new Error("Erro ao adicionar usuário");
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     },
 
-    adicionarUsuario(usuario) {
-        const usuarios = this.getUsuarios();
-        usuario.id = usuarios.length ? usuarios[usuarios.length - 1].id + 1 : 1;
-        usuarios.push(usuario);
-        this.salvarUsuarios(usuarios);
+    async atualizarUsuario(usuario) {
+        try {
+            const response = await fetch(`${API_URL}/${usuario.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(usuario),
+            });
+            if (!response.ok) throw new Error("Erro ao atualizar usuário");
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     },
 
-    atualizarUsuario(usuarioAtualizado) {
-        let usuarios = this.getUsuarios();
-        usuarios = usuarios.map(usuario => 
-            usuario.id === usuarioAtualizado.id ? usuarioAtualizado : usuario
-        );
-        this.salvarUsuarios(usuarios);
-    },
-
-    excluirUsuario(id) {
-        let usuarios = this.getUsuarios();
-        id = Number(id); // Converte para número
-        usuarios = usuarios.filter(usuario => usuario.id !== id);
-        this.salvarUsuarios(usuarios);
+    async excluirUsuario(id) {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) throw new Error("Erro ao excluir usuário");
+            return true;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
     }
-    
 };
