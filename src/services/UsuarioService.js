@@ -26,7 +26,9 @@ export const UsuarioService = {
 
     excluirUsuario(id) {
         let usuarios = this.getUsuarios();
+        id = Number(id); // Converte para número
         usuarios = usuarios.filter(usuario => usuario.id !== id);
         this.salvarUsuarios(usuarios);
     }
+    
 };
