@@ -16,8 +16,6 @@ Este é um projeto de CRUD de usuários utilizando JavaScript puro, armazenando 
 │   ├── UsuarioController.js
 ├── services
 │   ├── UsuarioService.js
-├── data
-│   ├── usuarios.json
 ├── index.html
 └── styles.css
 ```
@@ -42,7 +40,7 @@ npm install
 
 ### 3. Executar um servidor local (Live Server)
 ```sh
-npx live-server --port=8080 --mimeType "text/javascript"
+npx live-server --port=8080
 ```
 > 📅 **Alternativamente**, use a extensão Live Server do VS Code para abrir `index.html`
 
@@ -65,7 +63,7 @@ npx live-server --port=8080 --mimeType "text/javascript"
 ### **Erro: MIME Type não permitido**
 Se ao abrir no navegador houver um erro MIME ao carregar os scripts, rode um servidor local:
 ```sh
-npx live-server --port=8080 --mimeType "text/javascript"
+npx live-server --port=8080
 ```
 
 ### **Erro: `document.querySelector(...) is null`**
