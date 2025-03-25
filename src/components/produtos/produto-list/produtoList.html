@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuários</title>
+    <title>Lista de Produtos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -12,22 +12,24 @@
     <div id="header-placeholder"></div>
 
     <div class="container mt-5">
-        <h2 class="mb-3">Lista de Usuários</h2>
+        <h2 class="mb-3">Lista de Produtos</h2>
 
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th>Email</th>
-                    <th>Idade</th>
-                    <th>Ações</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Categoria</th>
+                    <th>Imagem</th>
                 </tr>
             </thead>
-            <tbody id="tabela-usuarios"></tbody>
+            <tbody id="tabela-produtos"></tbody>
         </table>
 
-        <a href="../usuario-form/usuarioForm.html" class="btn btn-primary">Novo Usuário</a>
+        <a href="../produto-form/ProdutoForm.html" class="btn btn-primary">Novo Produto</a>
     </div>
 
     <!-- Scripts -->
@@ -39,7 +41,7 @@
                 .then(data => document.getElementById("header-placeholder").innerHTML = data);
         });
     </script>
-    <script type="module" src="usuarioList.js"></script>
+    <script type="module" src="produtoList.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
