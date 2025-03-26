@@ -1,12 +1,11 @@
 import { UsuarioService } from "../../../services/UsuarioService.js";
 
 // Carregar Header e Usuários Dinamicamente
-document.addEventListener("DOMContentLoaded", () => {
-    carregarUsuarios();
+document.addEventListener("DOMContentLoaded", async () => {
+    await carregarUsuarios();
 });
 
-
-function carregarUsuarios() {
+async function carregarUsuarios() {
     const tabela = document.querySelector("#tabela-usuarios");
     if (!tabela) {
         console.error("Elemento #tabela-usuarios não encontrado.");
@@ -15,48 +14,60 @@ function carregarUsuarios() {
 
     tabela.innerHTML = "";
 
-    const usuarios = UsuarioService.getUsuarios();
+    try {
+        const usuarios = await UsuarioService.getUsuarios(); // Agora esperamos os dados corretamente
 
-    usuarios.forEach(usuario => {
-        const linha = document.createElement("tr");
-        linha.innerHTML = `
-            <td>${usuario.id}</td>
-            <td>${usuario.nome}</td>
-            <td>${usuario.email}</td>
-            <td>${usuario.idade}</td>
-            <td>
-                <button class="btn btn-warning btn-sm editar" data-id="${usuario.id}">Editar</button>
-                <button class="btn btn-danger btn-sm remover" data-id="${usuario.id}">Excluir</button>
-            </td>
-        `;
-        tabela.appendChild(linha);
-    });
+        if (!Array.isArray(usuarios)) {
+            console.error("Erro: dados recebidos não são um array.", usuarios);
+            return;
+        }
 
-    // Eventos de clique para editar e remover
-    document.querySelectorAll(".editar").forEach(button => {
-        button.addEventListener("click", (event) => {
-            const id = event.target.getAttribute("data-id");
-            editarUsuario(id);
+        usuarios.forEach(usuario => {
+            const linha = document.createElement("tr");
+            linha.innerHTML = `
+                <td>${usuario.id}</td>
+                <td>${usuario.nome}</td>
+                <td>${usuario.email}</td>
+                <td>${usuario.idade}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm editar" data-id="${usuario.id}">Editar</button>
+                    <button class="btn btn-danger btn-sm remover" data-id="${usuario.id}">Excluir</button>
+                </td>
+            `;
+            tabela.appendChild(linha);
         });
-    });
 
-    document.querySelectorAll(".remover").forEach(button => {
-        button.addEventListener("click", (event) => {
-            const id = Number(event.target.getAttribute("data-id")); // Converte para número
-            removerUsuario(id);
+        // Eventos de clique para editar e remover
+        document.querySelectorAll(".editar").forEach(button => {
+            button.addEventListener("click", (event) => {
+                const id = event.target.getAttribute("data-id");
+                editarUsuario(id);
+            });
         });
-    });
+
+        document.querySelectorAll(".remover").forEach(button => {
+            button.addEventListener("click", async (event) => {
+                const id = Number(event.target.getAttribute("data-id")); // Converte para número
+                await removerUsuario(id);
+            });
+        });
+
+    } catch (error) {
+        console.error("Erro ao carregar usuários:", error);
+    }
 }
 
 function editarUsuario(id) {
     window.location.href = `../usuario-form/usuarioForm.html?id=${id}`;
 }
 
-function removerUsuario(id) {
+async function removerUsuario(id) {
     console.log("Excluindo usuário com ID:", id);
 
-    UsuarioService.excluirUsuario(id);
-
-    // Espera um pouco para garantir que os dados sejam atualizados antes de recarregar a tabela
-    setTimeout(carregarUsuarios, 100);
+    try {
+        await UsuarioService.excluirUsuario(id);
+        await carregarUsuarios(); // Recarrega a lista após a exclusão
+    } catch (error) {
+        console.error("Erro ao excluir usuário:", error);
+    }
 }
