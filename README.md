@@ -1,7 +1,3 @@
-Claro! Aqui está o **README** atualizado, com as alterações necessárias e tudo em um único bloco de texto:
-
----
-
 # CRUD de Usuários e Produtos em JavaScript
 
 Este é um projeto de CRUD de usuários e produtos utilizando JavaScript puro, consumindo uma **API mock** e seguindo o padrão MVC. O front-end é separado em componentes e utiliza Bootstrap para estilização.
@@ -142,8 +138,3 @@ npx live-server --port=8080
 ---
 
 ## 🚀 **Pronto! Agora seu CRUD de Usuários e Produtos está funcionando!**
-Se precisar de mais ajustes, me avise! 🔥
-
----
-
-Agora o README está em um único bloco de texto e inclui as informações tanto para **usuários** quanto para **produtos** no projeto. Se precisar de mais alguma coisa, estou à disposição!
